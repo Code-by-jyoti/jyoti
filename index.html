@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider</title>
+  <style>
+    .slider-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      width: 100%;
+      display: none;
+    }
+    img{
+        width: 100%;
+        display: block;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .controls button {
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="slider-container">
+  <div class="slider">
+    <div class="slide">
+    <img src="images/j1.jpg" alt="Image 1">
+    <div class="caption">nature</div>
+</div>
+    <div class="slide">
+    <img  src="images/j2.jpg" alt="Image 2">
+    <div class="caption">water</div>
+</div>
+<div class="slide">
+    <img  src="images/j3.jpg" alt="Image 3">
+    <div class="caption">greenery</div>
+</div>
+<div class="slide">
+    <img  src="images/j4.jpg" alt="Image 4">
+    <div class="caption">sunset</div>
+</div>
+<div class="slide">
+    <img  src="images/j5.jpg" alt="Image 5">
+    <div class="caption">sunshine</div>
+  </div>
+  <div class="controls">
+    <button class="prev-btn">Previous</button>
+    <button class="play-pause-btn">Play</button>
+    <button class="next-btn">Next</button>
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let isPlaying = true;
+  let intervalId;
+
+  function showSlide(n) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[n].classList.add('active');
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlide);
+  }
+
+  function togglePlayPause() {
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      intervalId = setInterval(nextSlide, 2000);
+      document.querySelector('.play-pause-btn').textContent = 'Pause';
+    } else {
+      clearInterval(intervalId);
+      document.querySelector('.play-pause-btn').textContent = 'Play';
+    }
+  }
+
+  document.querySelector('.next-btn').addEventListener('click', nextSlide);
+  document.querySelector('.prev-btn').addEventListener('click', prevSlide);
+  document.querySelector('.play-pause-btn').addEventListener('click', togglePlayPause);
+
+  // Initial slide display
+  showSlide(currentSlide);
+  togglePlayPause(); // Start autoplay by default
+</script>
+
+</body>
+</html>
